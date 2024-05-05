@@ -44,7 +44,7 @@ class Recusive{
                 }else{
                     $this->option.='<option value="'.$value['id'].'">'.$text.$value['name'].'</option>';
                 }
-                $this->categoryRecusive($parent_id,$value['id'],$text.'--');
+                $this->menuRecusive($parent_id,$value['id'],$text.'--');
             }
         }
         return $this->option;

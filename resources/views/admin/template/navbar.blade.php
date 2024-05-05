@@ -14,7 +14,11 @@
     <hr class="sidebar-divider">
     <li class="nav-item active">
         <a class="nav-link" href="{{ route('category.index') }}">
-            <span>Danh mục sản phẩm</span></a>
+            <span>Quản lý danh mục</span></a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ route('product.index') }}">
+            <span>Quản lý sản phẩm</span></a>
     </li>
     
 

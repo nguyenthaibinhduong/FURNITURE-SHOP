@@ -37,7 +37,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $category->name }}</td>
-                                <td><a class="text-danger" href="">Xóa</a> | <a  href="{{ route('category.edit',['id'=>$category['id']]) }}">Sửa</a></td>
+                                <td><a class="text-danger" href="{{ route('category.delete',['id'=>$category['id']]) }}">Xóa</a> | <a  href="{{ route('category.edit',['id'=>$category['id']]) }}">Sửa</a></td>
                             </tr>
                             @endforeach
                         </tbody>

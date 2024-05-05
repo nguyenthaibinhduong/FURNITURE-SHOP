@@ -34,7 +34,7 @@ class CategoryController extends Controller
         return redirect()->route('category.create');
     }
     public function edit($id){
-        $category = $this->category->find($id);
+        $category = Category::find($id);
         $option= $this->getcategory($category->parent_id);
         return View('admin.category.edit',['category'=>$category,'option'=>$option]);
     }
@@ -52,8 +52,8 @@ class CategoryController extends Controller
         $option = $recusive->categoryRecusive($parent_id);
         return $option;
     }
-    // public function delete($id){
-    //     $this->category->find($id)->delete();
-    //     return redirect()->route('category.index');
-    // }
+    public function delete($id){
+        $this->category->find($id)->delete();
+        return redirect()->route('category.index');
+    }
 }
