@@ -24,8 +24,8 @@ class ProductController extends Controller
    }
     public function index()
     {
-        $product = Product::with('category')->get();
-        return view('admin.product.index',compact('product'));
+        $products = Product::with('category')->paginate(4);
+        return view('admin.product.index',compact('products'));
     }
     public function create()
     {
@@ -96,4 +96,5 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('product.index');
     }
+    
 }

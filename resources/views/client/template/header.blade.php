@@ -13,17 +13,9 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav ml-auto">
-                        <li class="nav-item active"><a class="nav-link" href="client/index.html">Home</a></li>
-                        <li class="nav-item submenu dropdown">
-                            <a href="client/#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                             aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="client/category.html">Shop Category</a></li>
-                                <li class="nav-item"><a class="nav-link" href="client/single-product.html">Product Details</a></li>
-                                <li class="nav-item"><a class="nav-link" href="client/checkout.html">Product Checkout</a></li>
-                                <li class="nav-item"><a class="nav-link" href="client/cart.html">Shopping Cart</a></li>
-                                <li class="nav-item"><a class="nav-link" href="client/confirmation.html">Confirmation</a></li>
-                            </ul>
+                        <li class="nav-item {{ Request::is('/') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
+                        <li class="nav-item {{ Request::is('shop') ? 'active' : '' }}">
+                            <a href="{{ url('/shop') }}" class="nav-link">Shop</a>
                         </li>
                         <li class="nav-item submenu dropdown">
                             <a href="client/#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"

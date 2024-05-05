@@ -38,7 +38,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($product as $product)
+                            @foreach ($products as $product)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $product->name }}</td>
@@ -54,6 +54,7 @@
                     </table>
                 </div>
             </div>
+            {{ $products->links() }}
         </div>
     </div>       
     @include('admin.template.footer')
