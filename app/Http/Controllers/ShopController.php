@@ -18,4 +18,8 @@ class ShopController extends Controller
         $product = Product::where('category_id',$id)->get();
         return view('client.shop',['category'=>$category,'products'=>$product]);
     }
+    public function getProductDetail($id){
+        $product = Product::with('category')->find($id);
+        return view('client.singleproduct',compact('product'));
+    }
 }

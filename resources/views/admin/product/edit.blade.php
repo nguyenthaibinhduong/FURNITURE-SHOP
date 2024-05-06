@@ -40,6 +40,10 @@
                     <textarea class="form-control" id="description" name="description" rows="3">{{ $product->description }}</textarea>
                 </div>
                 <div class="mb-3">
+                    <label for="description" class="form-label">Mô tả chi tiết</label>
+                    <textarea class="form-control" id="description" name="longdescription" rows="3">{{ $product->longdescription }}</textarea>
+                </div>
+                <div class="mb-3">
                     <label for="category" class="form-label">Danh mục sản phẩm</label>
                     <select class="form-control" id="category" name="category_id" required>
                         {!! $option !!}

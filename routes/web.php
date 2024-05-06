@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
@@ -15,6 +16,7 @@ Route::prefix('')->group(function(){
     Route::get('/', [HomeController::class,'index'])->name('home');
     Route::get('/shop', [ShopController::class,'index'])->name('shop');
     Route::get('/category/{id}', [ShopController::class,'showByCategory'])->name('showByCategory');
+    Route::get('/product/{id}', [ShopController::class,'getProductDetail'])->name('product.detail');
 });
 
 
@@ -50,6 +52,8 @@ Route::prefix('admin')->middleware('checkrole')->group(function () {
     
 
 });
+
+Route::get('/search-product/{key}',[ApiController::class,'ajaxSearch'])->name('ajaxSearch');
 
 Route::get('/unauthorized', function(){ 
     return view('error.unauthorized');

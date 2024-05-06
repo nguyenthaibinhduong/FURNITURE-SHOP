@@ -49,10 +49,28 @@
     <div class="search_input" id="search_input_box">
         <div class="container">
             <form class="d-flex justify-content-between">
-                <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+                <input type="text" class="form-control ajaxSearch" id="search_input" placeholder="Search Here">
                 <button type="submit" class="btn"></button>
                 <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
             </form>
+            <div class="ajaxResult">
+                
+            </div>
+            {{-- <hr>
+            <div class="row">
+                <div class="col-1 d-flex">
+                    <img width="60" height="60" src="" alt="">
+                </div>
+                <div class="col-6 d-flex flex-column justify-content-start">
+                    <div class="row">
+                       <h4>Title</h4>
+                    </div>
+                    <div class="row">
+                        <span>asdasdadsasdasd</span>
+                     </div>
+                </div>
+            </div> --}}
+            
         </div>
     </div>
 </header>

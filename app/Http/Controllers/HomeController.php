@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('client.home');
+        $products = Product::paginate(4);
+        return view('client.home',['products'=>$products]);
     }
 }

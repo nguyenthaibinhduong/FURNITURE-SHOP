@@ -51,6 +51,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'quantity' => $request->quantity,
             'description' => $request->description,
+            'longdescription' => $request->longdescription,
             'category_id' => $request->category_id,
             'image' => $imageName,
         ]);
@@ -85,6 +86,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'quantity' => $request->quantity,
             'description' => $request->description,
+            'longdescription' => $request->longdescription,
             'category_id' => $request->category_id,
             'image' => $imageName
         ]);

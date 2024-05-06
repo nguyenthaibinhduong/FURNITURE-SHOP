@@ -74,8 +74,9 @@
 						<!-- single product -->
 						@foreach ($products as $product)
 						<div class="col-lg-3 col-md-6">
+							
 							<div class="single-product">
-								<img class="img-fluid" src="{{ asset('image/product/'.$product->image) }}" alt="">
+								<a href="{{ route('product.detail',['id'=>$product->id]) }}"><img class="img-fluid" src="{{ asset('image/product/'.$product->image) }}" alt=""></a>
 								<div class="product-details">
 									<h6>{{ $product->name }}</h6>
 									<div class="price">
