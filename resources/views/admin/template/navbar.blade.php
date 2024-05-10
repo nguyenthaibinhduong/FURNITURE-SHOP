@@ -20,8 +20,14 @@
         <a class="nav-link" href="{{ route('product.index') }}">
             <span>Quản lý sản phẩm</span></a>
     </li>
-    
-
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ route('user.index') }}">
+            <span>Quản lý người dùng</span></a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ route('role.index') }}">
+            <span>Quản lý vai trò</span></a>
+    </li>
 </ul>
 <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
