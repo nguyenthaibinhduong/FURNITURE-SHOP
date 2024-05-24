@@ -3,7 +3,9 @@
         <nav class="navbar navbar-expand-lg navbar-light main_box">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
-                <a class="navbar-brand logo_h" href="client/index.html"><img src="client/img/logo.png" alt=""></a>
+                <a class="navbar-brand logo_h" href="{{ route('home') }}">
+                    <img src="{{ asset('client/img/logo.png') }}" alt="">
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="icon-bar"></span>
@@ -34,13 +36,30 @@
                                 <li class="nav-item"><a class="nav-link" href="client/elements.html">Elements</a></li>
                             </ul>
                         </li>
+                       
                         <li class="nav-item"><a class="nav-link" href="client/contact.html">Contact</a></li>
+                        @if(Auth::check())
+                        <li class="nav-item ">
+                            <a href="{{ url('/logout') }}" class="nav-link">Đăng Xuất</a>
+                        </li>
+                        @else
+                        <li class="nav-item {{ Request::is('login') ? 'active' : '' }}">
+                            <a href="{{ url('/login') }}" class="nav-link">Đăng Nhập</a>
+                        </li>
+                        @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item"><a href="client/#" class="cart"><span class="ti-bag"></span></a></li>
+                        <li class="nav-item"><a href="{{ route('cart') }}" class="cart"><span class="ti-bag"></span></a></li>
                         <li class="nav-item">
                             <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
                         </li>
+                        @if(Auth::check())
+                        <li  class="nav-item">
+                        <a href="{{ route('information') }}" class="genric-btn">{{ Auth::user()->name }}  <span class="lnr lnr-arrow-right"></span></a>
+                        
+                        </li>
+                            
+                        @endif
                     </ul>
                 </div>
             </div>

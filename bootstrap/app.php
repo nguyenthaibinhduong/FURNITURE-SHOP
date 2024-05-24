@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\checkCartLogin;
 use App\Http\Middleware\checkPermission;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -14,7 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'checkrole' => CheckRole::class,
-            'checkpermission'=>checkPermission::class
+            'checkpermission'=>checkPermission::class,
+            'checkCartLogin'=>checkCartLogin::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

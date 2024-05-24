@@ -41,8 +41,8 @@
             html+='</div>';
 			}
 			$('.ajaxResult').html(html);
-				}
-			});
+		}
+		});
 
-		})
+	})
 	</script>

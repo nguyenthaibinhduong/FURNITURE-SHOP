@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\Customer;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
@@ -20,6 +24,18 @@ Route::prefix('')->group(function(){
     Route::get('/product/{id}', [ShopController::class,'getProductDetail'])->name('product.detail');
 });
 
+Route::prefix('information')->group(function(){
+    Route::get('/', [CustomerController::class,'index'])->name('information');
+    Route::get('/edit', [CustomerController::class,'edit']);
+    Route::post('/update/{id}', [CustomerController::class,'update'])->name('information.update');
+});
+
+Route::prefix('cart')->middleware('checkCartLogin')->group(function(){
+    Route::post('/store', [CartController::class,'store'])->name('cart.store');
+    Route::post('/update', [CartController::class,'update'])->name('cart.update');
+    Route::get('/delete/{id}', [CartController::class,'delete'])->name('cart.delete');
+    Route::get('/', [CartController::class,'index'])->name('cart');
+});
 
 Route::get('/login', [UserController::class,'login'])->name('login');
 Route::post('/login', [UserController::class,'post_login']);
@@ -65,6 +81,15 @@ Route::prefix('admin')->middleware('checkrole')->group(function () {
         Route::get('/edit/{id}', [RoleController::class,'edit'])->middleware('checkpermission:update-role')->name('role.edit');
         Route::post('/update/{id}', [RoleController::class,'update'])->name('role.update');
         Route::get('/delete/{id}', [RoleController::class,'delete'])->middleware('checkpermission:delete-role')->name('role.delete');
+    });
+
+    Route::prefix('coupon')->group(function () {
+        Route::get('/', [CouponController::class,'index'])->middleware('checkpermission:show-coupon')->name('coupon.index');
+        Route::get('/create', [CouponController::class,'create'])->middleware('checkpermission:create-coupon')->name('coupon.create');
+        Route::post('/store', [CouponController::class,'store'])->name('coupon.store');
+        Route::get('/edit/{id}', [CouponController::class,'edit'])->middleware('checkpermission:update-coupon')->name('coupon.edit');
+        Route::post('/update/{id}', [CouponController::class,'update'])->name('coupon.update');
+        Route::get('/delete/{id}', [CouponController::class,'delete'])->middleware('checkpermission:delete-coupon')->name('coupon.delete');
     });
 
     

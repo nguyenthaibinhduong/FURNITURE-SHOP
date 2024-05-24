@@ -79,6 +79,17 @@ class UserController extends Controller
     public function post_register(Request $request){
         $request->merge(['password'=>Hash::make($request->password)]);
         User::create($request->all());
+        $user = User::where('name', '=', $request->name)
+        ->where('email', '=', $request->email)
+        ->where('password', '=', $request->password)
+        ->first();
+        $userRole= Role::where('name','=','user')->first();
+        DB::table('role_user')->insert([
+            'user_id' => $user->id,
+            'role_id' => $userRole->id,
+            'created_at' => now(), 
+            'updated_at' => now(), 
+        ]);
         return redirect()->route('login');
     }
     public function post_login(Request $request){
