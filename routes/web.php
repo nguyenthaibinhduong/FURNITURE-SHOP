@@ -35,6 +35,8 @@ Route::prefix('cart')->middleware('checkCartLogin')->group(function(){
     Route::post('/update', [CartController::class,'update'])->name('cart.update');
     Route::get('/delete/{id}', [CartController::class,'delete'])->name('cart.delete');
     Route::get('/', [CartController::class,'index'])->name('cart');
+    Route::post('/apply-coupon', [CartController::class,'applyCoupon'])->name('cart.coupon');
+    Route::get('/delete-coupon', [CartController::class,'removeCoupon'])->name('cart.coupon.delete');
 });
 
 Route::get('/login', [UserController::class,'login'])->name('login');

@@ -61,7 +61,10 @@
             </div>
             <div class="row mb-3">
                 <div class="col-sm-2"><strong>Ngày Sinh:</strong></div>
-                <div class="col-sm-10">{{ $customer->birth_date }}</div>
+                @php
+                use Carbon\Carbon;
+                @endphp
+                <div class="col-sm-10">{{ Carbon::parse($customer->birth_date)->format('d/m/Y') }}</div>
             </div>
         </div>
     </div>

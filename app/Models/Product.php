@@ -14,11 +14,14 @@ class Product extends Model
         'longdescription',
         'price',
         'quantity',
-        'category_id',
-        'image'
+        'category_id'
     ];
     public function category()
     {
         return $this->belongsTo(Category::class,'category_id');
+    }
+    public function image()
+    {
+        return $this->belongsToMany(ProductImage::class);
     }
 }

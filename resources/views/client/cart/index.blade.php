@@ -13,12 +13,12 @@
             <div class="table-responsive">
                 <table class="table">
                     <thead>
-                        <tr>
+                        <tr >
                             <th scope="col">Sản phẩm</th>
                             <th scope="col">Giá</th>
                             <th scope="col">Số lượng</th>
                             <th scope="col">Thành tiền</th>
-                            <th scope="col">Action</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -27,7 +27,12 @@
                             <td>
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img width="80" height="100" src="{{ asset('image/product/'.$cart->product_image) }}" alt="">
+                                        @foreach($images as $image)
+                                        @if($image->product_id == $cart->product_id)
+                                        <img width="80" height="100" src="{{ asset($image->url) }}" alt="">
+                                        @endif
+                                        @endforeach
+                                       
                                     </div>
                                     <div class="media-body">
                                         <p>{{ $cart->product_name }}</p>
@@ -51,15 +56,16 @@
                             <td>
                                 <h5>{{ $cart->product_price*$cart->quantity }}$</h5>
                             </td>
-                            <td>
-                                <h5><a href="{{ route('cart.delete',['id'=>$cart->product_id]) }}">Xóa</a></h5>
+                            <td >
+                                <h5><a href="{{ route('cart.delete',['id'=>$cart->product_id]) }}" class="text-dark"><i style="font-size: 20px" class="fa fa-trash-o" aria-hidden="true"></i></a></h5>
                             </td>
                         </tr>
                         @endforeach
                         <tr class="bottom_button">
                             <td>
                                 <input class="gray_btn" type="submit" name="update" value="Cập nhật giỏ hàng">
-                            </td>
+                            </form>
+                        </td>
                             <td>
 
                             </td>
@@ -67,14 +73,23 @@
                             </td>
                             <td>
                             </td>
-                            <td colspan="2">
-                                <div class="cupon_text d-flex align-items-center">
-                                    <input type="text" placeholder="Coupon Code">
-                                    <a class="primary-btn" href="#">Apply</a>
-                                    <a class="gray_btn" href="#">Close Code</a>
-                                </div>
+                            <td>
+                                    <form class="cupon_text d-flex align-items-center" action="{{ route('cart.coupon') }}" method="post">
+                                        @csrf
+                                        <input type="text" value="{{ $coupon }}" name="coupon" placeholder="Coupon Code">
+                                        <input type="submit" value="Apply" class="primary-btn">
+                                        <a class="gray_btn" href="{{ route('cart.coupon.delete') }}">Close</a>
+                                        
+                                    </form>
+
                             </td>
                         </tr>
+                        @if (session('message'))
+                        <tr>
+                            <td colspan="3"></td>
+                            <td colspan="2"><p class="text-danger">{{ session('message') }}</p></td>
+                        </tr>  
+                        @endif
                         <tr>
                             <td>
 
@@ -85,46 +100,21 @@
                             <td>
 
                             </td>
-                            <td>
-                                <h5>Subtotal</h5>
+                            <td> 
+                                <h5>Tổng tiền:</h5>
+                                <h5>Giảm giá:</h5>
+                                <ii >Voucher (nếu có)</ii    >
+                                <h5>Tổng thanh toán:</h5>
                             </td>
                             <td>
+                                <h5>{{ $oldtotal }}$</h5>
+                                <h5>{{ $discount }}$</h5>
+                                <i>{{ ($coupon)?$coupon:'Không' }} </i>
                                 <h5>{{ $subtotal }}$</h5>
                             </td>
                         </tr>
-                        {{-- <tr class="shipping_area">
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-                                <h5>Shipping</h5>
-                            </td>
-                            <td>
-                                <div class="shipping_box">
-                                    <ul class="list">
-                                        <li><a href="#">Flat Rate: $5.00</a></li>
-                                        <li><a href="#">Free Shipping</a></li>
-                                        <li><a href="#">Flat Rate: $10.00</a></li>
-                                        <li class="active"><a href="#">Local Delivery: $2.00</a></li>
-                                    </ul>
-                                    <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
-                                    <select class="shipping_select">
-                                        <option value="1">Bangladesh</option>
-                                        <option value="2">India</option>
-                                        <option value="4">Pakistan</option>
-                                    </select>
-                                    <select class="shipping_select">
-                                        <option value="1">Select a State</option>
-                                        <option value="2">Select a State</option>
-                                        <option value="4">Select a State</option>
-                                    </select>
-                                    <a class="gray_btn" href="#">Update Details</a>
-                                </div>
-                            </td>
-                        </tr> --}}
+                        
+                        
                         <tr class="out_button_area">
                             <td>
 
@@ -148,7 +138,7 @@
                     </tbody>
                 </table>
             </div>
-        </form>
+        
     </div>
 </div>
 @endsection

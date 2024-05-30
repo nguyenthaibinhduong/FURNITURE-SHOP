@@ -68,4 +68,5 @@ class CouponController extends Controller
         Coupon::find($id)->delete();
         return redirect()->route('coupon.index');
     }
+    
 }

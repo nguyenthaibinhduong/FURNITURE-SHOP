@@ -20,8 +20,14 @@
 <div class="product_image_area p-0">
 	<div class="container">
 		<div class="row ">
-			<div class="col-lg-4 offset-2">
-				<img width="300" height="400" src="{{ asset('image/product/'.$product->image) }}" alt="">
+			<div class="col-lg-6">
+				<div class="s_Product_carousel">
+					@foreach($images as $image)
+					<div class="single-prd-item">
+						<img class="img-fluid" src="{{ asset($image->url) }}" alt="">
+					</div>
+                    @endforeach
+				</div>
 			</div>
 			<div class="col-lg-5 offset-lg-1">
 				<div class="s_product_text mt-0">

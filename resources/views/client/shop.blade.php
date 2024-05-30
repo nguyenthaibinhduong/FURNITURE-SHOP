@@ -70,7 +70,13 @@
 				<div class="col-lg-3 col-md-6">
 					
 					<div class="single-product">
-						<a href="{{ route('product.detail',['id'=>$product->id]) }}"><img class="img-fluid" src="{{ asset('image/product/'.$product->image) }}" alt=""></a>
+						<a href="{{ route('product.detail',['id'=>$product->id]) }}">
+							@foreach($images as $image)
+                            @if($image->product_id == $product->id)
+							<img class="img-fluid" src="{{ asset($image->url) }}" alt=""></a>
+                            @endif
+                        	@endforeach
+							
 						<div class="product-details">
 							<h6>{{ $product->name }}</h6>
 							<div class="price">

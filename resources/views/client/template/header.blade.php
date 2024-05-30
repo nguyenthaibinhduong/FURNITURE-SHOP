@@ -38,15 +38,6 @@
                         </li>
                        
                         <li class="nav-item"><a class="nav-link" href="client/contact.html">Contact</a></li>
-                        @if(Auth::check())
-                        <li class="nav-item ">
-                            <a href="{{ url('/logout') }}" class="nav-link">Đăng Xuất</a>
-                        </li>
-                        @else
-                        <li class="nav-item {{ Request::is('login') ? 'active' : '' }}">
-                            <a href="{{ url('/login') }}" class="nav-link">Đăng Nhập</a>
-                        </li>
-                        @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item"><a href="{{ route('cart') }}" class="cart"><span class="ti-bag"></span></a></li>
@@ -55,8 +46,15 @@
                         </li>
                         @if(Auth::check())
                         <li  class="nav-item">
-                        <a href="{{ route('information') }}" class="genric-btn">{{ Auth::user()->name }}  <span class="lnr lnr-arrow-right"></span></a>
+                        <a href="{{ route('information') }}"><i style="font-size: 18px; color:black" class="fa fa-user-circle-o" aria-hidden="true"></i><span></span></a>
                         
+                        </li>
+                        <li class="nav-item ">
+                            <a href="{{ url('/logout') }}" class ="text-dark">Đăng xuất<span></span></a>
+                        </li>
+                        @else
+                        <li class="nav-item {{ Request::is('login') ? 'active' : '' }}">
+                            <a href="{{ url('/login') }}" class="text-warning" >Đăng nhập<span></span></a>
                         </li>
                             
                         @endif

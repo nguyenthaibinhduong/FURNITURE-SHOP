@@ -36,7 +36,11 @@
         </div>
         <div class="mb-3">
             <label for="image" class="form-label">Hình ảnh</label>
-            <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+            <input type="file" class="form-control" id="image" name="image" required>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Hình ảnh chi tiết</label>
+            <input type="file" class="form-control" id="image" name="image_detail[]" multiple>
         </div>
         <button type="submit" class="btn btn-primary">Thêm</button>
         <a href="" class="btn btn-secondary">Cancel</a>

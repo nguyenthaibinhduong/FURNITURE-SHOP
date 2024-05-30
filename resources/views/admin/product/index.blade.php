@@ -29,7 +29,11 @@
                         <td>{{ $product->quantity }}</td>
                         <td>{{ $product->description }}</td>
                         <td>{{ $product->category->name }}</td>
-                        <td><img width="50px" height="50px" src="{{ asset('image/product/'.$product->image) }}" alt=""></td>
+                        @foreach($images as $image)
+                            @if($image->product_id == $product->id)
+                            <td><img width="50px" height="50px" src="{{ asset($image->url) }}" alt=""></td>
+                            @endif
+                        @endforeach
                         <td><a class="text-danger" href="{{ route('product.delete',['id'=>$product->id]) }}">Xóa</a> | <a  href="{{ route('product.edit',['id'=>$product->id]) }}">Sửa</a></td>
                     </tr>
                     @endforeach
