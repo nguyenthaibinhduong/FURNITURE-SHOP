@@ -18,16 +18,9 @@
 @section('content')
 <div class="container mt-5">
     <div class="row">
-        <div class="col-3">
-            <nav class="nav flex-column">
-                <a class="nav-link {{ Request::is('information') ? 'text-dark' : '' }}"  href="#">Thông tin tài khoản</a>
-                <a class="nav-link" href="#">Link</a>
-                <a class="nav-link" href="#">Link</a>
-                
-              </nav>
-        </div>
+        @include('client.template.user-nav')
         <div class="col-9">    
-        <div class="card">
+       <div class="card">
         <div class="card-header d-flex justify-content-between">
             <h3>Thông Tin Khách Hàng</h3>
             <a href="{{ url('/information/edit') }}">Chỉnh sửa thông tin</a>
@@ -66,7 +59,7 @@
                 @endphp
                 <div class="col-sm-10">{{ Carbon::parse($customer->birth_date)->format('d/m/Y') }}</div>
             </div>
-        </div>
+        </div> 
     </div>
 </div>
     </div>

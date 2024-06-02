@@ -1,5 +1,5 @@
 @extends('client.layout.master')
-@section('title', 'Cửa hàng')
+@section('title', 'Giỏ hàng')
 
 
 @section('content')
@@ -7,6 +7,7 @@
     <h2>Giỏ hàng</h2>
 </div>
 <div class="container ">
+    
     <div class="cart_inner">
         <form action="{{ route('cart.update') }}" method="post">
             @csrf
@@ -22,6 +23,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if(count($cartproduct)>0)
                         @foreach($cartproduct as $cart)
                         <tr>
                             <td>
@@ -76,7 +78,7 @@
                             <td>
                                     <form class="cupon_text d-flex align-items-center" action="{{ route('cart.coupon') }}" method="post">
                                         @csrf
-                                        <input type="text" value="{{ $coupon }}" name="coupon" placeholder="Coupon Code">
+                                        <input type="text" value="{{ session('coupon') }}" name="coupon" placeholder="Coupon Code" {{ (session('coupon') )?'disabled':'' }}>
                                         <input type="submit" value="Apply" class="primary-btn">
                                         <a class="gray_btn" href="{{ route('cart.coupon.delete') }}">Close</a>
                                         
@@ -87,7 +89,7 @@
                         @if (session('message'))
                         <tr>
                             <td colspan="3"></td>
-                            <td colspan="2"><p class="text-danger">{{ session('message') }}</p></td>
+                            <td colspan="2"><h4 class="">{{ session('message') }}</h4></td>
                         </tr>  
                         @endif
                         <tr>
@@ -108,8 +110,8 @@
                             </td>
                             <td>
                                 <h5>{{ $oldtotal }}$</h5>
-                                <h5>{{ $discount }}$</h5>
-                                <i>{{ ($coupon)?$coupon:'Không' }} </i>
+                                <h5>{{ session('discount') }}$</h5>
+                                <i>{{ (session('coupon'))?session('coupon'):'Không' }} </i>
                                 <h5>{{ $subtotal }}$</h5>
                             </td>
                         </tr>
@@ -130,15 +132,20 @@
                             </td>
                             <td>
                                 <div class="checkout_btn_inner d-flex align-items-center">
-                                    <a class="gray_btn" href="#">Continue Shopping</a>
-                                    <a class="primary-btn" href="#">Proceed to checkout</a>
+                                    <a class="gray_btn" href="{{ route('shop') }}">Continue Shopping</a>
+                                    <a class="primary-btn" href="{{ route('cart.checkout') }}">Proceed to checkout</a>
                                 </div>
                             </td>
                         </tr>
+                        @else
+                        <tr><i>Chưa có dữ liệu giỏ hàng</i></tr>
+                        @endif
                     </tbody>
+
                 </table>
             </div>
         
     </div>
+    
 </div>
 @endsection

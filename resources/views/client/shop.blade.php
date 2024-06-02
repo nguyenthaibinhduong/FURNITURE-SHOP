@@ -73,7 +73,7 @@
 						<a href="{{ route('product.detail',['id'=>$product->id]) }}">
 							@foreach($images as $image)
                             @if($image->product_id == $product->id)
-							<img class="img-fluid" src="{{ asset($image->url) }}" alt=""></a>
+							<img width="100px" height="200px"  src="{{ asset($image->url) }}" alt=""></a>
                             @endif
                         	@endforeach
 							
@@ -82,7 +82,7 @@
 							<div class="price">
 								<h6>${{ $product->price }}</h6>
 							</div>
-							<div class="prd-bottom">
+							{{-- <div class="prd-bottom">
 
 								<a href="" class="social-info">
 									<span class="ti-bag"></span>
@@ -100,7 +100,7 @@
 									<span class="lnr lnr-move"></span>
 									<p class="hover-text">view more</p>
 								</a>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 				</div>

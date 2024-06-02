@@ -8,6 +8,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Customer;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShopController;
@@ -26,6 +27,8 @@ Route::prefix('')->group(function(){
 
 Route::prefix('information')->group(function(){
     Route::get('/', [CustomerController::class,'index'])->name('information');
+    Route::get('/orders', [CustomerController::class,'orders'])->name('orders');
+    Route::get('/orders-detail/{id}', [CustomerController::class,'orderDetail'])->name('orders.detail');
     Route::get('/edit', [CustomerController::class,'edit']);
     Route::post('/update/{id}', [CustomerController::class,'update'])->name('information.update');
 });
@@ -37,6 +40,12 @@ Route::prefix('cart')->middleware('checkCartLogin')->group(function(){
     Route::get('/', [CartController::class,'index'])->name('cart');
     Route::post('/apply-coupon', [CartController::class,'applyCoupon'])->name('cart.coupon');
     Route::get('/delete-coupon', [CartController::class,'removeCoupon'])->name('cart.coupon.delete');
+    Route::prefix('/checkout')->group(function(){
+        Route::get('/', [CartController::class,'checkout'])->name('cart.checkout');
+        Route::post('/create-order', [CartController::class,'createOrder'])->name('cart.order.create');
+    });
+    
+
 });
 
 Route::get('/login', [UserController::class,'login'])->name('login');
@@ -92,6 +101,13 @@ Route::prefix('admin')->middleware('checkrole')->group(function () {
         Route::get('/edit/{id}', [CouponController::class,'edit'])->middleware('checkpermission:update-coupon')->name('coupon.edit');
         Route::post('/update/{id}', [CouponController::class,'update'])->name('coupon.update');
         Route::get('/delete/{id}', [CouponController::class,'delete'])->middleware('checkpermission:delete-coupon')->name('coupon.delete');
+    });
+
+    Route::prefix('order')->group(function () {
+        Route::get('/', [OrderController::class,'index'])->middleware('checkpermission:list-order')->name('order.index');
+        Route::get('/detail/{id}', [OrderController::class,'detail'])->middleware('checkpermission:update-order-status')->name('order.detail');
+        Route::post('/update/{id}', [OrderController::class,'updateStatus'])->middleware('checkpermission:update-order-status')->name('order.detail.update');
+        
     });
 
     

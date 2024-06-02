@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\Customer;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -58,8 +60,10 @@ class UserController extends Controller
     }
     public function delete($id){
         $user = User::find($id);
+        Cart::where('user_id',$id)->delete();
         $user->delete();
         $user->roles()->detach();
+       
         return redirect()->route('user.index');
     }
     public function login(){
@@ -90,6 +94,9 @@ class UserController extends Controller
             'created_at' => now(), 
             'updated_at' => now(), 
         ]);
+        $customer = new Customer;
+        $customer->user_id=$user->id;
+        $customer->save();
         return redirect()->route('login');
     }
     public function post_login(Request $request){

@@ -18,14 +18,7 @@
 @section('content')
 <div class="container mt-5">
     <div class="row">
-        <div class="col-3">
-            <nav class="nav flex-column">
-                <a class="nav-link {{ Request::is('information') ? 'text-dark' : '' }}"  href="#">Thông tin tài khoản</a>
-                <a class="nav-link" href="#">Link</a>
-                <a class="nav-link" href="#">Link</a>
-                
-              </nav>
-        </div>
+        @include('client.template.user-nav')
         <div class="col-9">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">

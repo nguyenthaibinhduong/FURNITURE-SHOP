@@ -15,7 +15,7 @@
                         <th>Loại</th>
                         <th>Giá trị</th>
                         <th>Ngày hết hạn</th>
-                        <th><a class="btn btn-success" href="{{ route('coupon.create') }}">Thêm vai trò mới</a></th>
+                        <th><a class="btn btn-success" href="{{ route('coupon.create') }}">Thêm voucher mới</a></th>
                     </tr>
                 </thead>
                 <tbody>

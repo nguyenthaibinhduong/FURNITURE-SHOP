@@ -32,6 +32,10 @@
         <a class="nav-link" href="{{ route('coupon.index') }}">
             <span>Quản lý mã giảm giá</span></a>
     </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ route('order.index') }}">
+            <span>Quản lý đơn hàng</span></a>
+    </li>
 </ul>
 <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">

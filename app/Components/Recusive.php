@@ -10,14 +10,18 @@ class Recusive{
     }
     public function Recusive($id=0,$text='')
     {
-        foreach($this->data as &$value)
+
+        foreach($this->data as $value)
         {
+            
             if($value['parent_id']==$id){
-               $value['name']=$text.$value['name'];
+                $this->option.='<tr>
+                <td>'.$text.$value['name'].'</td>
+                <td><a class="text-danger" href="'. route('category.delete',['id'=>$value['id']]) .'">Xóa</a> | <a  href="'.route('category.edit',['id'=>$value['id']]).'">Sửa</a></td></tr>';
                 $this->Recusive($value['id'],$text.'--');
             }
         }
-        return $this->data;
+        return $this->option;
     }
     public function categoryRecusive($parent_id,$id=0,$text='')
     {

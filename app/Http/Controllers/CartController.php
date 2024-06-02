@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Coupon;
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
@@ -30,12 +33,19 @@ class CartController extends Controller
             if (!Carbon::now()->gt($coupon->expiration_date)) {
                 if($coupon->type==='%'){
                     $value =1-($coupon->value/100);
-                    session(['couponpercent' =>  $value ]); 
-                    session(['coupon' => $coupon->name ]);
+                    if($value==0){
+                        session(['couponpercent' =>  0 ]);
+                        session(['coupon' => $coupon->name ]);
+                    }else{
+                        session(['couponpercent' =>  $value ]); 
+                        session(['coupon' => $coupon->name ]);
+                    }
+                    
                     $message = 'Áp Mã giảm giá thành công !';
                 }
-                if($coupon->type==='VND'){
+                else if($coupon->type==='VND'){
                     $value = $coupon->value;
+                    
                     session(['couponvalue' => $value ]);
                     session(['coupon' => $coupon->name ]);
                     $message = 'Áp Mã giảm giá thành công !';
@@ -47,7 +57,7 @@ class CartController extends Controller
         }else{
             $message = 'Mã giảm giá không tồn tại hoặc hết hạn!';
         }
-        return redirect()->route('cart')->with([
+        return redirect()->back()->with([
             'message' => $message
         ]);
 ;
@@ -56,14 +66,54 @@ class CartController extends Controller
         if( session()->has('couponpercent')){
                 session()->forget('couponpercent');
                 session(['coupon' => '' ]);
+                session(['discount' => 0 ]);
 
         }else if(session()->has('couponvalue')){
                 session()->forget('couponvalue');
                 session(['coupon' => '' ]);
+                session(['discount' => 0 ]);
         }
-        return redirect()->route('cart');
+        return redirect()->back();
     }
-    public function index(){
+    public function createOrder(Request $request){
+        $order = new Order;
+        $order->order_code = $this->generateOrderCode();
+        $order->user_id = Auth::user()->id;
+        $order->customer_name=$request->c_name;
+        $order->customer_email=$request->c_email;
+        $order->customer_tel=$request->c_tel;
+        $order->customer_address=$request->c_address;
+        $order->total_price=$request->subtotal;
+        $order->total=$request->total;
+        $order->discount=$request->discount;
+        $order->payment_method= $request->payment_method;
+        $order->status=1;
+        $order->save();
+      
+        $cartproduct = $this->cartProduct->where('cart_id','=',$request->cart_id)->get();
+        foreach ($cartproduct as $cart){
+            $order_detail = new OrderDetail();
+            $order_detail->order_id = $order->id;
+            $order_detail->product_id= $cart->product_id;
+            $order_detail->quantity = $cart->quantity;
+            $order_detail->price = $cart->quantity*$cart->product_price;
+            $order_detail->save();
+        }
+        $this->cartProduct->where('cart_id','=',$request->cart_id)->delete();
+        $this->cart->find($request->cart_id)->delete();
+        if( session()->has('couponpercent')){
+            session()->forget('couponpercent');
+            session(['coupon' => '' ]);
+            session(['discount' => 0 ]);
+
+        }else if(session()->has('couponvalue')){
+            session()->forget('couponvalue');
+            session(['coupon' => '' ]);
+            session(['discount' => 0 ]);
+        }
+        return redirect()->route('orders');
+    }
+        public function index(){
         $cart = $this->cart->findOrCreate(auth()->user()->id);
         $cartproduct = $this->cartProduct->where('cart_id','=',$cart->id)->get();
         $this->subtotal = 0;
@@ -71,21 +121,39 @@ class CartController extends Controller
         foreach ($cartproduct as $cart){
             $this->subtotal += ($cart->product_price*$cart->quantity);
        }
-       if(session('couponpercent')){
-            $subtotal=$this->subtotal *  session('couponpercent');
-            $coupon = session('coupon');
-       }else if(session('couponvalue')){
+
+       if(session()->has('couponpercent')){
+            $subtotal=$this->subtotal * session('couponpercent');
+       }else if(session()->has('couponvalue')){
             $subtotal=$this->subtotal - session('couponvalue');
-            $coupon = session('coupon');
        }else{
             $subtotal=$this->subtotal;
-            $coupon = session('coupon');
        }
-
-       $oldtotal = $this->subtotal ;
-       $discount =  $oldtotal-$subtotal;
+       $oldtotal = $this->subtotal ; 
+       session(['discount' => $oldtotal-$subtotal ]);
        //dd($coupon);
-        return view('client.cart.index',compact('cartproduct','subtotal','images','coupon','oldtotal','discount'));
+        return view('client.cart.index',compact('cartproduct','subtotal','images','oldtotal'));
+    }
+    public function checkout(){
+        $cart = $this->cart->findOrCreate(auth()->user()->id);
+        $cart_id =$cart->id;
+        $cartproduct = $this->cartProduct->where('cart_id','=',$cart->id)->get();
+        $this->subtotal = 0;
+        $images = ProductImage::where('image_type',0)->get();
+        foreach ($cartproduct as $cart){
+            $this->subtotal += ($cart->product_price*$cart->quantity);
+       }
+        if(session()->has('couponpercent')){
+            $subtotal=$this->subtotal * session('couponpercent');
+        }else if(session()->has('couponvalue')){
+            $subtotal=$this->subtotal - session('couponvalue');
+        }else{
+            $subtotal=$this->subtotal;
+        }
+        $oldtotal = $this->subtotal ; 
+        session(['discount' => $oldtotal-$subtotal ]);
+        $customer = Customer::where('user_id','=',Auth::user()->id)->first();
+        return view('client.cart.checkout',compact('cart_id','customer','cartproduct','subtotal','oldtotal'));
     }
     public function delete($id){
         $cart = $this->cart->findOrCreate(auth()->user()->id);
@@ -137,6 +205,15 @@ class CartController extends Controller
         }
         
         return redirect()->route('cart');
+    }
+
+    private function generateOrderCode()
+    {
+        do {
+            $code = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+        } while (Order::where('order_code', $code)->exists());
+
+        return $code;
     }
     
 }
