@@ -28,6 +28,19 @@
             <textarea id="my-editor" class="form-control" id="description" name="longdescription" rows="3">{{ $product->longdescription }}</textarea>
         </div>
         <div class="mb-3">
+            <label for="brand" class="form-label">Thương hiệu sản phẩm</label>
+            <select class="form-control" id="brand" name="brand_id" required>
+                <option value="0">Chọn thương hiệu sản phẩm</option>
+                @foreach ($brands as $brand)
+                    @if($brand->id==$product->brand_id)
+                    <option selected value="{{ $brand->id }}">{{ $brand->name }}</option>
+                    @else
+                    <option  value="{{ $brand->id }}">{{ $brand->name }}</option>
+                    @endif
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
             <label for="category" class="form-label">Danh mục sản phẩm</label>
             <select class="form-control" id="category" name="category_id" required>
                 {!! $option !!}
@@ -40,9 +53,7 @@
                     <label for="image" class="form-label">Hình ảnh</label>
                     <input type="file" class="form-control" id="image" name="image" accept="image/*" >
                 </div>
-                <div class="col-6">
-                    <img width="100px" height="100px" src="{{ asset('image/product/'.$product->image) }}" alt="">
-                </div>
+                <img width="100px" height="100px" src="{{ asset($image->url) }}" alt="">
             </div>
 
         </div>

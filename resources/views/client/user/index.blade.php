@@ -36,7 +36,8 @@
             </div>
             <div class="row mb-3">
                 <div class="col-sm-2"><strong>Số Điện Thoại:</strong></div>
-                <div class="col-sm-10">{{ $customer->phone_number }}</div>
+                
+                <div class="col-sm-10">{{ ($customer->phone_number) }}</div>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-2"><strong>Địa Chỉ:</strong></div>
@@ -45,10 +46,12 @@
             <div class="row mb-3">
                 <div class="col-sm-2"><strong>Giới Tính:</strong></div>
                 <div class="col-sm-10">
-                    @if($customer->gender == 1)
-                    Nam
-                    @else
+                    @if($customer->gender == null)
+    
+                    @elseif($customer->gender == 1)
                     Nữ
+                    @else
+                    Nam
                     @endif
                 </div>
             </div>
@@ -57,7 +60,9 @@
                 @php
                 use Carbon\Carbon;
                 @endphp
+                @if($customer->birth_date!=null)
                 <div class="col-sm-10">{{ Carbon::parse($customer->birth_date)->format('d/m/Y') }}</div>
+                @endif
             </div>
         </div> 
     </div>

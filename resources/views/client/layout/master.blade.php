@@ -14,6 +14,7 @@
 </head>
 
 <body id="category">
+	@include('client.template.alert')
 
 	<!-- Start Header Area -->
     @include('client.template.header')

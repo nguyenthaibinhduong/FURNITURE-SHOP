@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Components\Recusive;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
@@ -13,9 +14,13 @@ class ProductController extends Controller
 {
     
     private $category;
-    public function __construct(Category $category,)
+    private $brand;
+
+    public function __construct(Category $category,Brand $brand)
     {
         $this->category=$category;
+        $this->brand=$brand;
+
     }
     public function getCategories($parent_id)
    {
@@ -33,8 +38,9 @@ class ProductController extends Controller
     }
     public function create()
     {
+        $brands = $this->brand->all();
         $option= $this->getCategories($parent_id='');
-        return View('admin.product.create',['option'=>$option]);
+        return View('admin.product.create',['option'=>$option,'brands'=>$brands]);
     }
     public function store(Request $request)
     {
@@ -46,6 +52,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->longdescription = $request->longdescription;
         $product->category_id = $request->category_id;
+        $product->brand_id = $request->brand_id;
         $product->save();
         
         if ($request->hasFile('image')){
@@ -75,25 +82,37 @@ class ProductController extends Controller
     }
     public function edit($id)
     {
+        $brands = $this->brand->all();
+        $image = ProductImage::where('image_type',0)
+        ->where('product_id',$id)
+        ->first();
         $product = Product::find($id);
         $option= $this->getCategories($product->category_id);
-        return View('admin.product.edit',['option'=>$option,'product'=>$product]);
+        return View('admin.product.edit',['option'=>$option,'product'=>$product,'image'=>$image,'brands'=>$brands]);
     }
     public function update($id,Request $request){
         $product = Product::findOrFail($id);
-
-        // Xóa ảnh cũ nếu có
-        if ($request->hasFile('image') && $product->image) {
-            unlink('image/product/'.$product->image);
+        $image = ProductImage::where('product_id',$id)
+        ->where('image_type',0)
+        ->first();
+       
+        if($image!=null){
+            if ($request->hasFile('image') ) {
+                 // Xóa ảnh cũ nếu có
+                unlink($image->url);
+                // Lưu ảnh mới
+                $imageName = time().'.'.$request->image->extension();  
+                $request->image->move(public_path('image/product'), $imageName);
+                $url ='image/product/'.$imageName;
+                $image->update([
+                    'url'=>$url
+                ]);
+            }
+            
         }
+        
 
-        // Lưu ảnh mới
-        if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();  
-            $request->image->move(public_path('image/product'), $imageName);
-        }else{
-            $imageName = $product->image;
-        }
+        
 
         // Cập nhật thông tin sản phẩm khác
         $product->update([
@@ -103,13 +122,17 @@ class ProductController extends Controller
             'description' => $request->description,
             'longdescription' => $request->longdescription,
             'category_id' => $request->category_id,
-            'image' => $imageName
+            'brand_id'=>$request->brand_id,
         ]);
         return redirect()->route('product.index');
     }
     public function delete($id){
+        $images = ProductImage::where('product_id',$id)->get();
+        foreach($images as $image){
+            unlink($image->url);
+        }
+        $image->delete();
         $product = Product::find($id);
-        unlink('image/product/'.$product->image);
         $product->delete();
         return redirect()->route('product.index');
     }

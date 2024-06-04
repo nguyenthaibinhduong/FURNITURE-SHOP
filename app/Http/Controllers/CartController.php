@@ -95,6 +95,8 @@ class CartController extends Controller
             $order_detail = new OrderDetail();
             $order_detail->order_id = $order->id;
             $order_detail->product_id= $cart->product_id;
+            $order_detail->product_name= $cart->product_name;
+            $order_detail->product_price= $cart->product_price;
             $order_detail->quantity = $cart->quantity;
             $order_detail->price = $cart->quantity*$cart->product_price;
             $order_detail->save();
@@ -168,26 +170,34 @@ class CartController extends Controller
         $cartproduct = $this->cartProduct->where('cart_id', $cart->id)
         ->where('product_id', $product->id)
         ->first();
-
-        if($cartproduct==null){
-            $this->cartProduct->create([
-                'user_id'=>auth()->user()->id,
-                'cart_id'=>$cart->id,
-                'product_id'=>$request->id,
-                'product_name'=>$product->name,
-                'product_price'=>$product->price,
-                'quantity'=>$request->quantity
-    
-            ]);
-            return redirect()->route('cart');
-        }else{
-            $quantity = $cartproduct->quantity + $request->quantity; 
+        if($product->quantity>0){
+            if($cartproduct==null){
             
-            $cartproduct->update([
-                'quantity'=>$quantity
-            ]);
-            return redirect()->route('cart');
+                $this->cartProduct->create([
+                    'user_id'=>auth()->user()->id,
+                    'cart_id'=>$cart->id,
+                    'product_id'=>$request->id,
+                    'product_name'=>$product->name,
+                    'product_price'=>$product->price,
+                    'quantity'=>$request->quantity
+        
+                ]);
+                session()->flash('success', 'Sản phẩm đã được thêm vào giỏ hàng thành công!');
+                return redirect()->back();
+            }else{  
+                $quantity = $cartproduct->quantity + $request->quantity; 
+                
+                $cartproduct->update([
+                    'quantity'=>$quantity
+                ]);
+                session()->flash('success', 'Sản phẩm đã được thêm vào giỏ hàng thành công!');
+                return redirect()->back();
+            }
+        }else{
+            session()->flash('success', 'Sản phẩm đã hết !');
+            return redirect()->back();
         }
+       
         
 
     }

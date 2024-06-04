@@ -23,7 +23,7 @@
 				type: 'GET',
 				success: function(res){
 					for(var pro of res){
-				urlImage="{{ url('/image/product') }}"+'/'+pro.image;
+				urlImage="{{ url('/') }}"+'/'+pro.url;
 				urlPro="{{ url('/product') }}"+'/'+pro.id;
 				html+='<hr>';
 				html+='<div class="row">';
@@ -46,3 +46,14 @@
 
 	})
 	</script>
+	<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var alert = document.getElementById('alert');
+            if(alert) {
+                alert.classList.add('show');
+                setTimeout(function() {
+                    alert.classList.remove('show');
+                }, 3000);
+            }
+        });
+    </script>

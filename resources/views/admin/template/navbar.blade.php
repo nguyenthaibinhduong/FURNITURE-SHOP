@@ -17,6 +17,14 @@
             <span>Quản lý danh mục</span></a>
     </li>
     <li class="nav-item active">
+        <a class="nav-link" href="{{ route('brand.index') }}">
+            <span>Quản lý thương hiệu</span></a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ route('banner.index') }}">
+            <span>Quản lý Banner</span></a>
+    </li>
+    <li class="nav-item active">
         <a class="nav-link" href="{{ route('product.index') }}">
             <span>Quản lý sản phẩm</span></a>
     </li>

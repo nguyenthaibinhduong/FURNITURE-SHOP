@@ -15,6 +15,7 @@
                         <th>Giá</th>
                         <th>Số lượng</th>
                         <th>Mô tả</th>
+                        <th>Thương hiệu</th>
                         <th>Danh mục</th>
                         <th>Hình ảnh</th>
                         <th><a class="btn btn-success" href="{{ route('product.create') }}">Thêm sản phẩm mới</a></th>
@@ -28,6 +29,7 @@
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->quantity }}</td>
                         <td>{{ $product->description }}</td>
+                        <td>{{ $product->brand->name }}</td>
                         <td>{{ $product->category->name }}</td>
                         @foreach($images as $image)
                             @if($image->product_id == $product->id)

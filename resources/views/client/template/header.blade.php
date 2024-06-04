@@ -6,6 +6,7 @@
                 <a class="navbar-brand logo_h" href="{{ route('home') }}">
                     <img src="{{ asset('client/img/logo.png') }}" alt="">
                 </a>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="icon-bar"></span>
@@ -15,32 +16,21 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav ml-auto">
-                        <li class="nav-item {{ Request::is('/') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
+                        <li class="nav-item {{ Request::is('/') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/') }}">Trang chủ</a></li>
                         <li class="nav-item {{ Request::is('shop') ? 'active' : '' }}">
-                            <a href="{{ url('/shop') }}" class="nav-link">Shop</a>
+                            <a href="{{ url('/shop') }}" class="nav-link">Cửa hàng</a>
                         </li>
-                        <li class="nav-item submenu dropdown">
-                            <a href="client/#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                             aria-expanded="false">Blog</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="client/blog.html">Blog</a></li>
-                                <li class="nav-item"><a class="nav-link" href="client/single-blog.html">Blog Details</a></li>
-                            </ul>
+                        <li class="nav-item {{ Request::is('cart') ? 'active' : '' }}">
+                            <a href="{{ route('cart') }}" class="nav-link">Giỏ hàng</a>
                         </li>
-                        <li class="nav-item submenu dropdown">
-                            <a href="client/#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                             aria-expanded="false">Pages</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="client/login.html">Login</a></li>
-                                <li class="nav-item"><a class="nav-link" href="client/tracking.html">Tracking</a></li>
-                                <li class="nav-item"><a class="nav-link" href="client/elements.html">Elements</a></li>
-                            </ul>
+                        <li class="nav-item {{ Request::is('information/orders') ? 'active' : '' }}">
+                            <a href="{{ route('orders') }}" class="nav-link">Đơn hàng </a>
                         </li>
-                       
-                        <li class="nav-item"><a class="nav-link" href="client/contact.html">Contact</a></li>
+                        <li class="nav-item {{ Request::is('information') ? 'active' : '' }}">
+                            <a href="{{ route('information') }}" class="nav-link">Thông tin </a>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item"><a href="{{ route('cart') }}" class="cart"><span class="ti-bag"></span></a></li>
                         <li class="nav-item">
                             <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
                         </li>
@@ -73,21 +63,6 @@
             <div class="ajaxResult">
                 
             </div>
-            {{-- <hr>
-            <div class="row">
-                <div class="col-1 d-flex">
-                    <img width="60" height="60" src="" alt="">
-                </div>
-                <div class="col-6 d-flex flex-column justify-content-start">
-                    <div class="row">
-                       <h4>Title</h4>
-                    </div>
-                    <div class="row">
-                        <span>asdasdadsasdasd</span>
-                     </div>
-                </div>
-            </div> --}}
-            
         </div>
     </div>
 </header>

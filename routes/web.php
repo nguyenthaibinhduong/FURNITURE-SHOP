@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Customer;
@@ -22,6 +24,7 @@ Route::prefix('')->group(function(){
     Route::get('/', [HomeController::class,'index'])->name('home');
     Route::get('/shop', [ShopController::class,'index'])->name('shop');
     Route::get('/category/{id}', [ShopController::class,'showByCategory'])->name('showByCategory');
+    Route::get('/brand/{cate}/{id}', [ShopController::class,'showByBrand'])->name('showByBrand');
     Route::get('/product/{id}', [ShopController::class,'getProductDetail'])->name('product.detail');
 });
 
@@ -65,6 +68,23 @@ Route::prefix('admin')->middleware('checkrole')->group(function () {
         Route::get('/edit/{id}', [CategoryController::class,'edit'])->middleware('checkpermission:update-category')->name('category.edit');
         Route::post('/update/{id}', [CategoryController::class,'update'])->name('category.update');
         Route::get('/delete/{id}', [CategoryController::class,'delete'])->middleware('checkpermission:delete-category')->name('category.delete');
+    });
+    Route::prefix('brand')->group(function () {
+        Route::get('/', [BrandController::class,'index'])->name('brand.index');
+        Route::get('/create', [BrandController::class,'create'])->name('brand.create');
+        Route::post('/store', [BrandController::class,'store'])->name('brand.store');
+        Route::get('/edit/{id}', [BrandController::class,'edit'])->name('brand.edit');
+        Route::post('/update/{id}', [BrandController::class,'update'])->name('brand.update');
+        Route::get('/delete/{id}', [BrandController::class,'delete'])->name('brand.delete');
+    });
+
+    Route::prefix('banner')->group(function () {
+        Route::get('/', [BannerController::class,'index'])->name('banner.index');
+        Route::get('/create', [BannerController::class,'create'])->name('banner.create');
+        Route::post('/store', [BannerController::class,'store'])->name('banner.store');
+        Route::get('/edit/{id}', [BannerController::class,'edit'])->name('banner.edit');
+        Route::post('/update/{id}', [BannerController::class,'update'])->name('banner.update');
+        Route::get('/delete/{id}', [BannerController::class,'delete'])->name('banner.delete');
     });
 
     Route::prefix('product')->group(function () {

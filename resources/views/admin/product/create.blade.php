@@ -28,6 +28,15 @@
             <textarea id="my-editor" class="form-control" id="description" name="longdescription" rows="3"></textarea>
         </div>
         <div class="mb-3">
+            <label for="brand" class="form-label">Thương hiệu sản phẩm</label>
+            <select class="form-control" id="brand" name="brand_id" required>
+                <option value="0">Chọn thương hiệu sản phẩm</option>
+                @foreach ($brands as $brand)
+                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
             <label for="category" class="form-label">Danh mục sản phẩm</label>
             <select class="form-control" id="category" name="category_id" required>
                 <option value="0">Chọn danh mục sản phẩm</option>

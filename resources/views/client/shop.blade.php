@@ -41,28 +41,25 @@
 			</ul>
 			
 		</div>
-
-	</div>
-	<div class="col-xl-9 col-lg-8 col-md-7">
-		<!-- Start Filter Bar -->
-		<div class="filter-bar d-flex flex-wrap align-items-center">
-			<div class="sorting">
-				<select>
-					<option value="1">Default sorting</option>
-					<option value="1">Default sorting</option>
-					<option value="1">Default sorting</option>
-				</select>
-			</div>
-			<div class="sorting mr-auto">
-				<select>
-					<option value="1">Show 12</option>
-					<option value="1">Show 12</option>
-					<option value="1">Show 12</option>
-				</select>
+		<div class="sidebar-filter mt-50">
+			<div class="top-filter-head">Lọc sản phẩm</div>
+			<div class="common-filter">
+				<div class="head">Thương hiệu</div>
+					<ul>
+						@if(isset($cate))
+						@foreach ($brands as $brand)
+						<li class="filter-list"><a class="text-dark" href="{{ route('showByBrand',['cate'=>$cate,'id'=>$brand->id]) }}">{{ $brand->name }}</a></label></li>
+						@endforeach
+						@else	
+						@foreach ($brands as $brand)
+						<li class="filter-list"><a class="text-dark" href="{{ route('showByBrand',['cate'=>0,'id'=>$brand->id]) }}">{{ $brand->name }}</a></label></li>
+						@endforeach
+						@endif
+					</ul>
 			</div>
 		</div>
-		<!-- End Filter Bar -->
-		<!-- Start Best Seller -->
+	</div>
+	<div class="col-xl-9 col-lg-8 col-md-7">
 		<section class="lattest-product-area pb-40 category-list">
 			<div class="row">
 				<!-- single product -->
@@ -82,25 +79,7 @@
 							<div class="price">
 								<h6>${{ $product->price }}</h6>
 							</div>
-							{{-- <div class="prd-bottom">
-
-								<a href="" class="social-info">
-									<span class="ti-bag"></span>
-									<p class="hover-text">add to bag</p>
-								</a>
-								<a href="" class="social-info">
-									<span class="lnr lnr-heart"></span>
-									<p class="hover-text">Wishlist</p>
-								</a>
-								<a href="" class="social-info">
-									<span class="lnr lnr-sync"></span>
-									<p class="hover-text">compare</p>
-								</a>
-								<a href="" class="social-info">
-									<span class="lnr lnr-move"></span>
-									<p class="hover-text">view more</p>
-								</a>
-							</div> --}}
+							
 						</div>
 					</div>
 				</div>
@@ -110,11 +89,12 @@
 			</div>
 
 		</section>
+		
 		<!-- End Best Seller -->
 		<!-- Start Filter Bar -->
 		
-				@if($products->count()>=4)
-				<div class="filter-bar d-flex flex-wrap align-items-center justify-content-center">
+				@if($products->count()>=8)
+				<div class="filter-bar d-flex flex-wrap align-items-center justify-content-center mb-5">
 					<div class="pagination">
 						{{ $products->links() }}
 					</div>
